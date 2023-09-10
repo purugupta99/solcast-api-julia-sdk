@@ -1,3 +1,5 @@
+module API
+
 include("error.jl")
 include("config.jl")
 
@@ -128,4 +130,7 @@ function get_response(client::Client, params::Dict)
     println(response_object)
 
     return response_object
+end
+
+export Response, Client, to_dict, make_url, check_params, get_response, user_agent
 end

@@ -1,6 +1,9 @@
+module Tmy
+
 include("api.jl")
 include("config.jl")
 
+using .API
 
 function radiation_and_weather(latitude::Float64, longitude::Float64; kwargs...)
     """
@@ -34,4 +37,7 @@ function rooftop_pv_power(latitude::Float64, longitude::Float64; kwargs...)
     resp = get_response(client, params)
 
     return resp
+end
+
+export radiation_and_weather, rooftop_pv_power
 end
