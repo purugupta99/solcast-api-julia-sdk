@@ -1,4 +1,5 @@
 include("error.jl")
+include("config.jl")
 
 using HTTP
 
@@ -10,6 +11,9 @@ end
 
 # Generates the full URL
 make_url(client::Client) = client.base_url * client.endpoint
+
+# Generates the user agent
+user_agent = "solcast-api-julia-sdk/" * version
 
 # Validates the parameters
 function check_params(params::Dict)
@@ -34,7 +38,7 @@ function check_params(params::Dict)
     end
 
     # Joins the output parameters into a comma-separated string if the "output_parameters" key is present
-    if haskey(params, "output_parameters") and isa(params["output_parameters"], Array)
+    if haskey(params, "output_parameters") && isa(params["output_parameters"], Array)
         params["output_parameters"] = join(params["output_parameters"], ",")
     end
 
@@ -62,7 +66,7 @@ function check_params(params::Dict)
 end
 
 # Gets the data from the API service
-function get(client::Client, params::Dict)
+function get_response(client::Client, params::Dict)
     params, key = check_params(params)
     url = make_url(client)
 
@@ -74,5 +78,7 @@ function get(client::Client, params::Dict)
     println("Headers: ", headers)
 
     response = HTTP.get(url, params, headers)
-    println("Response: ", response)
+    println("Response: ", response.body)
+
+    return response
 end
