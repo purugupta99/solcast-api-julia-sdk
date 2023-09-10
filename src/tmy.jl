@@ -2,7 +2,7 @@ include("api.jl")
 include("config.jl")
 
 
-function radiation_and_weather(latitude::Float64, longitude::Float64, kwargs...)
+function radiation_and_weather(latitude::Float64, longitude::Float64; kwargs...)
     """
     Get the irradiance and weather for a Typical Meteorological Year (TMY) at a requested location,
     derived from satellite (clouds and irradiance over non-polar continental areas) and
@@ -19,7 +19,7 @@ function radiation_and_weather(latitude::Float64, longitude::Float64, kwargs...)
     return resp
 end
 
-function rooftop_pv_power(latitude::Float64, longitude::Float64, kwargs...)
+function rooftop_pv_power(latitude::Float64, longitude::Float64; kwargs...)
     """
     Get the basic rooftop PV power estimated actuals for a Typical Meteorological Year (TMY) at a requested location,
     derived from satellite (clouds and irradiance over non-polar continental areas) and

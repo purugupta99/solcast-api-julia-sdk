@@ -2,7 +2,7 @@ include("api.jl")
 include("config.jl")
 
 
-function radiation_and_weather(latitude::Float64, longitude::Float64, output_parameters::Array{String,1}, kwargs...)
+function radiation_and_weather(latitude::Float64, longitude::Float64, output_parameters::Array{String,1}; kwargs...)
     """
     Get irradiance and weather estimated actuals for near real-time and past 7 days
     for the requested location, derived from satellite (clouds and irradiance
@@ -19,7 +19,7 @@ function radiation_and_weather(latitude::Float64, longitude::Float64, output_par
     return resp
 end
 
-function rooftop_pv_power(latitude::Float64, longitude::Float64, kwargs...)
+function rooftop_pv_power(latitude::Float64, longitude::Float64; kwargs...)
     """
     Get basic rooftop PV power forecasts from the present time up to 14 days ahead
     for the requested location, derived from satellite (clouds and irradiance over
@@ -37,7 +37,7 @@ function rooftop_pv_power(latitude::Float64, longitude::Float64, kwargs...)
     return resp
 end
 
-function advanced_pv_power(resource_id::Inf64, kwargs...)
+function advanced_pv_power(resource_id::Int64; kwargs...)
     """
     Get high spec PV power forecasts from the present time up to 14 days ahead for
     the requested site, derived from satellite (clouds and irradiance

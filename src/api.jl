@@ -2,6 +2,23 @@ include("error.jl")
 include("config.jl")
 
 using HTTP
+using JSON
+
+struct Response
+    status_code::Int64
+    url::String
+    data::Union{Vector{UInt8}, Nothing}
+    success::Bool
+    exception::Union{String, Nothing}
+end
+
+function to_dict(response::Response)
+    if response.success
+        return JSON.parse(String(response.data))
+    else
+        throw(invalid_response_error)
+    end
+end
 
 struct Client
     base_url::String
@@ -65,7 +82,7 @@ function check_params(params::Dict)
     return params, key
 end
 
-# Gets the data from the API service
+# Gets the data from the API service and returns a Response object
 function get_response(client::Client, params::Dict)
     params, key = check_params(params)
     url = make_url(client)
@@ -75,10 +92,40 @@ function get_response(client::Client, params::Dict)
     println("Key: ", key)
 
     headers = Dict("Authorization" => "Bearer $key", "User-Agent" => client.user_agent)
-    println("Headers: ", headers)
 
-    response = HTTP.get(url, params, headers)
-    println("Response: ", response.body)
+    response_object = nothing
+    try
+        response = HTTP.get(url, headers, query=params)
 
-    return response
+        if HTTP.status(response) == 200
+            response_object = Response(
+                response.status,
+                string(response.request.url),
+                response.body,
+                true,
+                nothing
+            )
+        else
+            response_object = Response(
+                response.status,
+                string(response.request.url),
+                response.body,
+                false,
+                "HTTP status code: " * string(response.status)
+            )
+        end
+
+    catch e
+        response_object = Response(
+            0,
+            url,
+            nothing,
+            false,
+            string(e)
+        )
+    end
+    # println("Response: ", response.body)
+    println(response_object)
+
+    return response_object
 end
