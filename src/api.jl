@@ -1,10 +1,5 @@
-module API
-
 include("error.jl")
 include("config.jl")
-
-using .Config
-using .Error
 
 using HTTP
 using JSON
@@ -78,9 +73,6 @@ function check_params(params::Dict)
         @assert params["format"] == "json" "only json response format is currently supported."
     end
 
-    println(length(params["api_key"]))
-    println("Checking params... ",  params)
-
     key = params["api_key"]
     delete!(params, "api_key")
 
@@ -91,10 +83,6 @@ end
 function get_response(client::Client, params::Dict)
     params, key = check_params(params)
     url = make_url(client)
-
-    println("URL: ", url)
-    println("Params: ", params)
-    println("Key: ", key)
 
     headers = Dict("Authorization" => "Bearer $key", "User-Agent" => client.user_agent)
 
@@ -129,11 +117,6 @@ function get_response(client::Client, params::Dict)
             string(e)
         )
     end
-    # println("Response: ", response.body)
-    println(response_object)
 
     return response_object
-end
-
-export Response, Client, to_dict, make_url, check_params, get_response, user_agent
 end

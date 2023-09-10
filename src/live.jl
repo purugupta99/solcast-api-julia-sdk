@@ -3,9 +3,6 @@ module Live
 include("api.jl")
 include("config.jl")
 
-using .API
-using .Config
-
 function radiation_and_weather(latitude::Float64, longitude::Float64, output_parameters::Array{String,1}; kwargs...)
     """
     Get irradiance and weather estimated actuals for near real-time and past 7 days

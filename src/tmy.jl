@@ -3,9 +3,6 @@ module Tmy
 include("api.jl")
 include("config.jl")
 
-using .API
-using .Config
-
 function radiation_and_weather(latitude::Float64, longitude::Float64; kwargs...)
     """
     Get the irradiance and weather for a Typical Meteorological Year (TMY) at a requested location,

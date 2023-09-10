@@ -1,6 +1,6 @@
 module SolcastAPI
 
-export API, Config, Error, Forecast, Historic, Live, Tmy
+export Forecast, Historic, Live, Tmy
 
 include("api.jl")
 include("config.jl")

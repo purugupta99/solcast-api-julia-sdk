@@ -3,9 +3,6 @@ module Historic
 include("api.jl")
 include("config.jl")
 
-using .API
-using .Config
-
 function radiation_and_weather(latitude::Float64, longitude::Float64, start::String; kwargs...)
     """
     Get historical irradiance and weather estimated actuals for up to 31 days of data
