@@ -3,6 +3,9 @@ module API
 include("error.jl")
 include("config.jl")
 
+using .Config
+using .Error
+
 using HTTP
 using JSON
 

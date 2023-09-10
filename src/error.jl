@@ -1,3 +1,4 @@
+module Error
 struct ValueError <: Exception
     msg::AbstractString
 end
@@ -7,3 +8,6 @@ struct InvalidResponse <: Exception
 end
 
 invalid_response_error = InvalidResponse("Invalid response: There is no body to parse as JSON.")
+
+export ValueError, InvalidResponse, invalid_response_error
+end
