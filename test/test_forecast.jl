@@ -4,7 +4,7 @@ using DataFrames
 using SolcastAPI: Forecast, to_dict, to_dataframe, load_test_locations_coordinates
 using Test
 
-@testset "test radiation and weather" begin
+@testset "forecast: test radiation and weather" begin
     export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
     res = Forecast.radiation_and_weather(lats[4], longs[4], ["albedo"]; hours=3)
@@ -15,7 +15,7 @@ using Test
     @test names(Forecast.to_dataframe(res)) == ["period_end", "albedo"]
 end
 
-@testset "test rooftop pv power" begin
+@testset "forecast: test rooftop pv power" begin
     export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
@@ -27,7 +27,7 @@ end
     @test names(Forecast.to_dataframe(res)) == ["period_end", "pv_power_rooftop"]
 end
 
-@testset "test advanced pv power" begin
+@testset "forecast: test advanced pv power" begin
     export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
