@@ -1,6 +1,8 @@
 include("error.jl")
 include("config.jl")
 
+using DataFrames
+using Dates
 using HTTP
 using JSON
 
@@ -13,11 +15,33 @@ struct Response
 end
 
 function to_dict(response::Response)
+
     if response.success
-        return JSON.parse(String(response.data))
+        data = deepcopy(response.data)
+        parsed = JSON.parse(String(data))
+        return parsed
     else
         throw(invalid_response_error)
     end
+end
+
+function to_dataframe(response::Response)
+    if !response.success
+        throw(invalid_response_error)
+    end
+
+    data_dict = to_dict(response)
+    dfs = [DataFrame(data_dict[k]) for k in keys(data_dict)]
+
+    # Concatenate the data frames into one
+    dfs = vcat(dfs...)
+
+    dfs."period_end" = DateTime.(dfs."period_end", "yyyy-mm-ddTHH:MM:SS.ssssssZ")
+
+    # Drop unwanted columns
+    select!(dfs, Not(:period))
+
+    return dfs
 end
 
 struct Client
@@ -89,7 +113,6 @@ function get_response(client::Client, params::Dict)
     response_object = nothing
     try
         response = HTTP.get(url, headers, query=params)
-
         if HTTP.status(response) == 200
             response_object = Response(
                 response.status,
@@ -98,23 +121,16 @@ function get_response(client::Client, params::Dict)
                 true,
                 nothing
             )
-        else
-            response_object = Response(
-                response.status,
-                string(response.request.url),
-                response.body,
-                false,
-                "HTTP status code: " * string(response.status)
-            )
         end
 
     catch e
+        response = e.response
         response_object = Response(
-            0,
+            response.status,
             url,
-            nothing,
+            response.body,
             false,
-            string(e)
+            JSON.parse(String(response.body))["response_status"]["message"]
         )
     end
 
