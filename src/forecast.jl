@@ -37,7 +37,7 @@ function rooftop_pv_power(latitude::Float64, longitude::Float64, output_paramete
     return resp
 end
 
-function advanced_pv_power(resource_id::Int64; kwargs...)
+function advanced_pv_power(resource_id::String; kwargs...)
     """
     Get high spec PV power forecasts from the present time up to 14 days ahead
     for the requested site, derived from satellite (clouds and irradiance over
