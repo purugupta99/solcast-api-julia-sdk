@@ -1,4 +1,4 @@
-name = "SolcastAPI"
+name = "Solcast"
 uuid = "316e074d-b47d-40a7-868b-1b027d6a4e76"
 authors = ["Puru Gupta <guptapuru304@gmail.com>"]
 version = "0.1.0"
@@ -11,4 +11,4 @@ JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [main]
-MyPackage = "src/SolcastAPI.jl"
+MyPackage = "src/Solcast.jl"

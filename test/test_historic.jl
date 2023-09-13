@@ -1,6 +1,6 @@
 include("utils.jl")
 
-using SolcastAPI: Historic, to_dict, to_dataframe, load_test_locations_coordinates
+using Solcast: Historic, to_dict, to_dataframe, load_test_locations_coordinates
 using Test
 
 @testset "historic: test radiation and weather" begin

@@ -1,6 +1,6 @@
 include("utils.jl")
 
-using SolcastAPI: check_params, version, ValueError, Client, Response, base_url, historic_radiation_and_weather, user_agent, to_dict, to_dataframe, get_response
+using Solcast: check_params, version, ValueError, Client, Response, base_url, historic_radiation_and_weather, user_agent, to_dict, to_dataframe, get_response
 using Test
 
 @test version == "1.0.1"

@@ -1,7 +1,7 @@
 include("utils.jl")
 
 using DataFrames
-using SolcastAPI: Tmy, to_dict, to_dataframe, load_test_locations_coordinates
+using Solcast: Tmy, to_dict, to_dataframe, load_test_locations_coordinates
 using Test
 
 @testset "tmy: test radiation and weather" begin

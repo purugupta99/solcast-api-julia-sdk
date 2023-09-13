@@ -1,4 +1,4 @@
-module SolcastAPI
+module Solcast
 
 export Forecast, Historic, Live, Tmy
 
@@ -11,4 +11,4 @@ include("live.jl")
 include("tmy.jl")
 include("unmetered_locations.jl")
 
-end # module SolcastAPI
+end # module Solcast
