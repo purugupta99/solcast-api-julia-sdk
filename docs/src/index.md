@@ -10,6 +10,8 @@ From the directory, open Julia REPL and go to `Package Management Mode` by press
 dev .
 ```
 
+OR
+
 To install from Julia registry, open Julia REPL, go to `Package Management Mode` and run the following:
 
 ```bash
@@ -53,16 +55,10 @@ Available modules are
 
 ## Docs
 
-From the directory, open Julia REPL, go to `Package Management Mode` and run the following:
+From the directory, run the following:
 
 ```bash
-activate .
-```
-
-GO back to REPL and run the following:
-
-```bash
-include("docs/make.jl")
+julia --project=docs/ docs/make.jl
 ```
 
 Navigate to `docs/build` and run `python -m http.server` to start a local server on port 8000.
