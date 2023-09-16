@@ -1,11 +1,8 @@
-include("utils.jl")
-
 using DataFrames
 using Solcast: Live, to_dict, to_dataframe, load_test_locations_coordinates
 using Test
 
 @testset "live: test radiation and weather" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
     res = Live.radiation_and_weather(lats[1], longs[1], ["dni", "ghi"])
 
@@ -16,7 +13,6 @@ using Test
 end
 
 @testset "live: test rooftop pv power" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
     res = Live.rooftop_pv_power(lats[1], longs[1]; capacity=3)
@@ -28,7 +24,6 @@ end
 end
 
 @testset "live: fail rooftop pv power" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
     res = Live.rooftop_pv_power(lats[1], longs[1])
@@ -39,7 +34,6 @@ end
 end
 
 @testset "live: test advanced pv power" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
     res = Live.advanced_pv_power(resources_ids[1])

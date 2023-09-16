@@ -1,10 +1,7 @@
-include("utils.jl")
-
 using Solcast: Historic, to_dict, to_dataframe, load_test_locations_coordinates
 using Test
 
 @testset "historic: test radiation and weather" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
     res = Historic.radiation_and_weather(lats[1], longs[1], "2022-10-25T14:45:00.000Z"; output_parameters=["air_temp"], duration="P1D")
 
@@ -15,7 +12,6 @@ using Test
 end
 
 @testset "historic: test rooftop pv power" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
     res = Historic.rooftop_pv_power(lats[1], longs[1], "2022-10-25T14:45:00.000Z"; capacity=10, duration="P3D")
@@ -27,7 +23,6 @@ end
 end
 
 @testset "historic: fail duration and end date" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
     res = Historic.radiation_and_weather(lats[1], longs[1], "2022-10-25T14:45:00.000Z"; duration="P3D", end_date="2022-10-25T18:45:00.00Z")

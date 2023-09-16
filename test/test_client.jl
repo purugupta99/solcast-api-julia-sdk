@@ -1,5 +1,3 @@
-include("utils.jl")
-
 using Solcast: check_params, version, ValueError, Client, Response, base_url, historic_radiation_and_weather, user_agent, to_dict, to_dataframe, get_response
 using Test
 
@@ -8,15 +6,14 @@ using Test
 # Fails because the API key is short in size
 
 @testset "fail when API key is short" begin
-    monkey_patch_api_key()
-    @test_throws ValueError check_params(Dict())
+    params = Dict("api_key" => "", "latitude" => -33.856784, "longitude" => 151.215297)
+    @test_throws ValueError check_params(params)
 end
 
 # Pass key in params
 @test check_params(Dict("api_key" => "test-key"))[2] == "test-key"
 
 @testset "test client and its methods" begin
-    export_api_key()
     client = Client(base_url, historic_radiation_and_weather, user_agent)
     params = Dict("latitude" => -33.856784, "longitude" => 151.215297, "start" => "2022-10-25T14:45:00.000Z", "format" => "json", "output_parameters" => ["air_temp"], "duration" => "P1D")
 

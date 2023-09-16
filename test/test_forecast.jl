@@ -1,11 +1,8 @@
-include("utils.jl")
-
 using DataFrames
 using Solcast: Forecast, to_dict, to_dataframe, load_test_locations_coordinates
 using Test
 
 @testset "forecast: test radiation and weather" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
     res = Forecast.radiation_and_weather(lats[4], longs[4], ["albedo"]; hours=3)
 
@@ -16,7 +13,6 @@ using Test
 end
 
 @testset "forecast: test rooftop pv power" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
     res = Forecast.rooftop_pv_power(lats[3], longs[3], ["pv_power_rooftop10"]; capacity=1, hours=3)
@@ -28,7 +24,6 @@ end
 end
 
 @testset "forecast: test advanced pv power" begin
-    export_api_key()
     lats, longs, resources_ids = load_test_locations_coordinates()
 
     res = Forecast.advanced_pv_power(resources_ids[1]; capacity=1, hours=3)
