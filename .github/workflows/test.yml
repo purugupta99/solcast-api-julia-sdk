@@ -26,6 +26,16 @@ jobs:
       - name: Build package
         uses: julia-actions/julia-buildpkg@v1
 
+      - name: Check Secret
+        env:
+          SOLCAST_API_KEY: ${{ secrets.SOLCAST_API_KEY }}
+        run: |
+          if [ -z "$SOLCAST_API_KEY" ]; then
+            echo "Secret is not set."
+          else
+            echo "Secret is set and its value is: $SOLCAST_API_KEY"
+          fi
+
       - name: Run tests
         env:
           SOLCAST_API_KEY: ${{ secrets.SOLCAST_API_KEY }}
