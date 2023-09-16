@@ -58,7 +58,7 @@ Available modules are
 From the directory, run the following:
 
 ```bash
-julia --project=docs/ docs/make.jl
+julia --project=. docs/make.jl
 ```
 
 Navigate to `docs/build` and run `python -m http.server` to start a local server on port 8000.
