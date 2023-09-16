@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        julia-version: [1.6, 1.7]  # Adjust Julia versions as needed
+        julia-version: [1.8.1]  # Adjust Julia versions as needed
 
     steps:
       - name: Checkout code
