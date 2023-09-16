@@ -6,6 +6,19 @@ using Dates
 using HTTP
 using JSON
 
+"""
+    struct Response
+
+Represents the response received from the Solcast API.
+
+# Fields
+- `status_code::Int64`: The HTTP status code.
+- `url::String`: The URL of the response.
+- `data::Union{Vector{UInt8}, Nothing}`: The response data as bytes or `Nothing` if not available.
+- `success::Bool`: `true` if the request was successful, `false` otherwise.
+- `exception::Union{String, Nothing}`: An exception message if the request failed, `Nothing` otherwise.
+
+"""
 struct Response
     status_code::Int64
     url::String
@@ -14,6 +27,21 @@ struct Response
     exception::Union{String, Nothing}
 end
 
+"""
+    to_dict(response::Response)
+
+Converts the response data to a dictionary (JSON) if the response is successful.
+
+# Arguments
+- `response::Response`: The HTTP response object.
+
+# Returns
+- `parsed::Dict{String, Any}`: The parsed JSON data.
+
+# Throws
+- `invalid_response_error`: If the response is not successful.
+
+"""
 function to_dict(response::Response)
 
     if response.success
@@ -25,6 +53,21 @@ function to_dict(response::Response)
     end
 end
 
+"""
+    to_dataframe(response::Response)
+
+Converts the response data to a DataFrame if the response is successful.
+
+# Arguments
+- `response::Response`: The HTTP response object.
+
+# Returns
+- `dfs::DataFrame`: The DataFrame containing the response data.
+
+# Throws
+- `invalid_response_error`: If the response is not successful.
+
+"""
 function to_dataframe(response::Response)
     if !response.success
         throw(invalid_response_error)
@@ -44,19 +87,57 @@ function to_dataframe(response::Response)
     return dfs
 end
 
+
+"""
+    struct Client
+
+Represents a client for making API requests.
+
+# Fields
+- `base_url::String`: The base URL for the API.
+- `endpoint::String`: The API endpoint.
+- `user_agent::String`: The user agent string.
+
+"""
 struct Client
     base_url::String
     endpoint::String
     user_agent::String
 end
 
-# Generates the full URL
+"""
+    make_url(client::Client)
+
+Generates the full URL based on the client's base URL and endpoint.
+
+# Arguments
+- `client::Client`: The API client.
+
+# Returns
+- `url::String`: The full URL.
+
+"""
 make_url(client::Client) = client.base_url * client.endpoint
 
 # Generates the user agent
 user_agent = "solcast-api-julia-sdk/" * version
 
-# Validates the parameters
+"""
+    check_params(params::Dict)
+
+Validates and prepares the parameters for an API request.
+
+# Arguments
+- `params::Dict`: A dictionary of request parameters.
+
+# Returns
+- `params::Dict`: The validated and modified request parameters.
+- `key::String`: The API key extracted from the parameters.
+
+# Throws
+- `ValueError`: If validation fails or if the API key is missing or too short.
+
+"""
 function check_params(params::Dict)
     # Validates that the params dictionary has an api_key
     if !haskey(params, "api_key")
@@ -103,7 +184,19 @@ function check_params(params::Dict)
     return params, key
 end
 
-# Gets the data from the API service and returns a Response object
+"""
+    get_response(client::Client, params::Dict)
+
+Sends an HTTP GET request and returns a Response object.
+
+# Arguments
+- `client::Client`: The API client.
+- `params::Dict`: A dictionary of request parameters.
+
+# Returns
+- `response_object::Response`: The HTTP response as a Response object.
+
+"""
 function get_response(client::Client, params::Dict)
     params, key = check_params(params)
     url = make_url(client)
