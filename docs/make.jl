@@ -19,5 +19,13 @@ makedocs(
             "Response" => "api/response.md",
         ]
     ]
+)
 
+deploydocs(
+    root=".",
+    repo = "https://github.com/purugupta99/solcast-api-julia-sdk.git",
+    branch = "gh-pages",
+    target = "docs/build",
+    push_preview = true,
+    forcepush = true,
 )
