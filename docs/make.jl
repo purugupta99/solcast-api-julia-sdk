@@ -23,7 +23,7 @@ makedocs(
 
 deploydocs(
     root=".",
-    repo = "https://github.com/purugupta99/solcast-api-julia-sdk.git",
+    repo = "https://github.com/Solcast/solcast-api-julia-sdk.git",
     branch = "gh-pages",
     target = "docs/build",
     push_preview = true,

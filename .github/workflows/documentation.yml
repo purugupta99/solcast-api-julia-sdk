@@ -18,7 +18,7 @@ jobs:
       - name: Build package
         uses: julia-actions/julia-buildpkg@v1
 
-      - name: Build and deploy
+      - name: Build documentation and deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT_TOKEN }} # For authentication with GitHub Actions token
         run: julia --project=. docs/make.jl
